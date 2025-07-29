@@ -1,23 +1,20 @@
 import React from "react";
 import MailboxDetails from "../MailboxDetails/MailboxDetails";
+import { Link, Navigate } from "react-router-dom";
 
 const MailboxList = (props) => {
+  // here i should spilt the each mailboxes into each link?
+
   return (
-    <>
-      <div>
-        {props.mailBoxes.map((mailBox, id) => {
-          console.log(mailBox);
-          return (
-            <MailboxDetails mailBoxes={props.mailBoxes} key={id}>
-              Mailbox {mailBox._id} {mailBox.boxOwner}
-            </MailboxDetails>
-          );
-        })}
-        <MailboxDetails mailBoxes={props.mailBoxes} />
-      </div>
-      {/* <div>{JSON.stringify(props)}</div>
-      <div>{JSON.stringify(props.mailBoxes)}</div> */}
-    </>
+    <div>
+      {props.mailBoxes.map((mailBox, idx) => {
+        return (
+          <div key={idx}>
+            <Link to={`/mailboxes/${idx + 1}`}>Mailbox {idx + 1}</Link>
+          </div>
+        );
+      })}
+    </div>
   );
 };
 

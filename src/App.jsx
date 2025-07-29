@@ -5,25 +5,37 @@ import MailboxForm from "./Components/MailboxForm/MailboxForm";
 import MailboxDetails from "./Components/MailboxDetails/MailboxDetails";
 import "./index.css";
 import NavBar from "./Components/NavBar";
-
-//
+import LetterForm from "./Components/MailboxForm/LetterForm";
 
 const App = () => {
   const [mailBoxes, setMailboxes] = useState([
     { boxOwner: "Alex", boxSize: "Small", _id: 1 },
   ]);
 
+  const [letters, setLetters] = useState([
+    { recipient: "Alex", message: "hello", _id: 1 },
+  ]);
+
   const addBox = (newMailBox) => {
-    console.log("mailBoxes: " + mailBoxes);
     setMailboxes((prevState) => {
       return [...prevState, newMailBox];
     });
+    console.table(mailBoxes);
   };
 
+  const addLetter = (newLetter) => {
+    setLetters((prevState) => {
+      return [...prevState, newLetter];
+    });
+    console.table(letters);
+  };
+
+  //cannot have duplicated components at route and div
   return (
     <div>
       <NavBar />
       <h2>Mailbox List</h2>
+      {/* {JSON.stringify(letters)} */}
       <Routes>
         <Route
           path="/"
@@ -47,9 +59,15 @@ const App = () => {
             />
           }
         />
-        <Route path="/mailboxes/:mailboxId" element={<MailboxDetails />} />
+        <Route
+          path="/mailboxes/:mailboxId"
+          element={<MailboxDetails letters={letters} mailBoxes={mailBoxes} />}
+        />
+        <Route
+          path="/new-letter"
+          element={<LetterForm addLetter={addLetter} mailBoxes={mailBoxes} />}
+        />
       </Routes>
-      {/* {JSON.stringify(mailBoxes)} */}
     </div>
   );
 };

@@ -1,55 +1,61 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const MailboxForm = (props) => {
-  //   const [newMailBox, setNewMailBox] = useState({
-  //     boxOwner: "",
-  //     boxSize: "",
-  //     _id: 0,
-  //   });
+  // taking kvp in the state takes longer bceause spread syntax iterates the kvp
+  //   const [newBoxOwner, setNewBoxOwner] = useState({ boxOwner: "" });
+  //   const [newBoxSize, setNewBoxSize] = useState({ boxSize: "" });
 
-  const [newBoxOwner, setNewBoxOwner] = useState({});
-  const [newBoxSize, setNewBoxSize] = useState({});
+  const [newBoxOwner, setNewBoxOwner] = useState("");
+  const [newBoxSize, setNewBoxSize] = useState("");
+  const navigate = useNavigate(); // how this works?
 
   const updateNewBoxOwner = (event) => {
-    setNewBoxOwner((prevState) => {
-      console.log("updateNewBoxOwner: " + event.target.id);
-      console.log("updateNewBoxOwner: " + event.target.value);
-      return { ...prevState, [event.target.id]: event.target.value };
-    });
+    setNewBoxOwner(event.target.value);
   };
 
   const updateNewBoxSize = (event) => {
-    setNewBoxSize((prevState) => {
-      console.log("updateNewBoxSize: " + event.target.id);
-      console.log("updateNewBoxSize: " + event.target.value);
-      return { ...prevState, [event.target.id]: event.target.value };
-    });
+    setNewBoxSize(event.target.value);
   };
 
   const submitNewMailBox = (event) => {
-    console.log("submit: " + event.target.id);
-    console.log("submit: " + { ["_id"]: props.currMailBoxesLength + 1 });
-    //why when i click submit console.log disappeared?
+    // why when i click submit button will disappear? form will refresh the page by default
+    event.preventDefault();
 
     // Combine all new details into one kvp before pass to parent
+    //     const newMailBox = {
+    //       ...newBoxOwner,
+    //       ...newBoxSize,
+    //       ["_id"]: props.currMailBoxesLength + 1,
+    //     };
+    //     props.addBox(newMailBox);
+    //     //controlled form
+    //     setNewBoxOwner({ boxOwner: "" });
+    //     // no need to clear setNewBoxSize
+    //   };
+
     const newMailBox = {
-      ...newBoxOwner,
-      ...newBoxSize,
+      ["boxOwner"]: newBoxOwner,
+      ["boxSize"]: newBoxSize,
       ["_id"]: props.currMailBoxesLength + 1,
     };
     props.addBox(newMailBox);
+    //controlled form
+    setNewBoxOwner("");
+    // no need to clear setNewBoxSize
+    navigate("/mailboxes");
   };
 
   return (
     <div>
       <form>
-        <label htmlFor="boxHolder">Enter a Boxholder</label>
+        <label htmlFor="boxOwner">Enter a Boxholder</label>
         <input
           type="text"
           placeholder="Boxholder name"
           id="boxOwner"
           onChange={updateNewBoxOwner}
+          value={newBoxOwner}
         ></input>
         <label>Select a Box Size</label>
         <select id="boxSize" onChange={updateNewBoxSize}>
@@ -58,7 +64,8 @@ const MailboxForm = (props) => {
           <option value="Large">Large</option>
         </select>
         <button onClick={submitNewMailBox}>
-          {<Link to="/mailboxes">Submit</Link>}
+          {/* <Navigate replace to="/mailboxes" /> */}
+          Submit
         </button>
       </form>
     </div>
