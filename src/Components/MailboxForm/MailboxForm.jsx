@@ -7,7 +7,7 @@ const MailboxForm = (props) => {
   //   const [newBoxSize, setNewBoxSize] = useState({ boxSize: "" });
 
   const [newBoxOwner, setNewBoxOwner] = useState("");
-  const [newBoxSize, setNewBoxSize] = useState("");
+  const [newBoxSize, setNewBoxSize] = useState("Small");
   const navigate = useNavigate(); // how this works?
 
   const updateNewBoxOwner = (event) => {
@@ -58,7 +58,7 @@ const MailboxForm = (props) => {
           value={newBoxOwner}
         ></input>
         <label>Select a Box Size</label>
-        <select id="boxSize" onChange={updateNewBoxSize}>
+        <select id="boxSize" value={newBoxSize} onChange={updateNewBoxSize}>
           <option value="Small">Small</option>
           <option value="Medium">Medium</option>
           <option value="Large">Large</option>

@@ -20,14 +20,12 @@ const App = () => {
     setMailboxes((prevState) => {
       return [...prevState, newMailBox];
     });
-    console.table(mailBoxes);
   };
 
   const addLetter = (newLetter) => {
     setLetters((prevState) => {
       return [...prevState, newLetter];
     });
-    console.table(letters);
   };
 
   //cannot have duplicated components at route and div
@@ -36,6 +34,7 @@ const App = () => {
       <NavBar />
       <h2>Mailbox List</h2>
       {/* {JSON.stringify(letters)} */}
+      {JSON.stringify(mailBoxes)}
       <Routes>
         <Route
           path="/"
